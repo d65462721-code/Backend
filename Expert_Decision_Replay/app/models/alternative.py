@@ -1,5 +1,13 @@
-from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
 from datetime import datetime
+
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Text,
+    DateTime,
+    ForeignKey
+)
 from sqlalchemy.orm import relationship
 
 from app.base import Base
@@ -8,39 +16,65 @@ from app.base import Base
 class Alternative(Base):
     __tablename__ = "alternatives"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(
+        Integer,
+        primary_key=True,
+        index=True
+    )
 
     decision_id = Column(
         Integer,
-        ForeignKey("decisions.id"),
+        ForeignKey(
+            "decisions.id",
+            ondelete="CASCADE"
+        ),
         nullable=False
     )
 
-    name = Column(String, nullable=False)
+    name = Column(
+        String(255),
+        nullable=False
+    )
 
-    description = Column(Text, nullable=False)
+    description = Column(
+        Text,
+        nullable=True
+    )
 
-    pros = Column(Text, nullable=False)
+    pros = Column(
+        Text,
+        nullable=True
+    )
 
-    cons = Column(Text, nullable=False)
+    cons = Column(
+        Text,
+        nullable=True
+    )
 
-    estimated_cost = Column(Integer, nullable=False)
+    estimated_cost = Column(
+        Integer,
+        nullable=True
+    )
 
-    feasibility_score = Column(Integer, nullable=False)
+    feasibility_score = Column(
+        Integer,
+        nullable=True
+    )
 
-    risk_level = Column(String, nullable=False)
+    risk_level = Column(
+        String(20),
+        nullable=True
+    )
 
     created_at = Column(
         DateTime,
-        default=datetime.utcnow,
-        nullable=False
+        default=datetime.utcnow
     )
 
     updated_at = Column(
         DateTime,
         default=datetime.utcnow,
-        onupdate=datetime.utcnow,
-        nullable=False
+        onupdate=datetime.utcnow
     )
 
     decision = relationship(
